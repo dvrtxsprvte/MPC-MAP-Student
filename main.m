@@ -81,7 +81,6 @@ clear ax ay cx cy i xs ys pgon start_position;
 
 w = waitforbuttonpress;
 
-
 while true
     
     % 1. Check if goal has been reached

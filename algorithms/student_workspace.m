@@ -3,11 +3,18 @@ function [public_vars] = student_workspace(read_only_vars,public_vars)
 
 % 8. Perform initialization procedure
 if (read_only_vars.counter == 1)
-          
+        
     public_vars = init_particle_filter(read_only_vars, public_vars);
     public_vars = init_kalman_filter(read_only_vars, public_vars);
 
+    % New arrays for LIDAR and GNSS (Sigma)
+    public_vars.lidar_history = [];
+    public_vars.gnss_history = [];
+
 end
+
+% Sensors Uncerntainty Analysis (Sigma)
+public_vars = sensor_analysis(read_only_vars, public_vars);
 
 % 9. Update particle filter
 public_vars.particles = update_particle_filter(read_only_vars, public_vars);
