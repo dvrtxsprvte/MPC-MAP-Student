@@ -9,23 +9,23 @@ function [public_vars] = sensor_analysis(read_only_vars, public_vars)
         lidar_sigma = std(public_vars.lidar_history);     % 1x8 
         gnss_sigma = std(public_vars.gnss_history);       % 1x2
     
-        disp('LIDAR Standard Deviations (for each channel):');
+        disp('LiDAR Standard Deviations (for each channel):');
         disp(lidar_sigma);
         disp('GNSS Standard Deviations (x and y axes):');
         disp(gnss_sigma);
         
-        % Save data to file
-        lidar_file = 'lidar_data.csv';
-        gnss_file = 'gnss_data.csv';
+        % % Save data to file
+        % lidar_file = 'lidar_data.csv';
+        % gnss_file = 'gnss_data.csv';
+        % 
+        % % Write LiDAR and GNSS stds to CSV
+        % writematrix(lidar_sigma, lidar_file);
+        % disp(['LiDAR data saved to ', lidar_file]);
+        % 
+        % writematrix(gnss_sigma, gnss_file);
+        % disp(['GNSS data saved to ', gnss_file]);
 
-        % Write LiDAR and GNSS stds to CSV
-        writematrix(lidar_sigma, lidar_file);
-        disp(['LiDAR data saved to ', lidar_file]);
-        
-        writematrix(gnss_sigma, gnss_file);
-        disp(['GNSS data saved to ', gnss_file]);
-
-        % Histogram Plots LIDAR
+        % Histogram Plots LiDAR
         figure;
         for i = 1:8
             subplot(4, 2, i);
@@ -55,6 +55,25 @@ function [public_vars] = sensor_analysis(read_only_vars, public_vars)
         disp('GNSS Covariance matrix (2x2):');
         disp(gnss_cov);
 
+        % Comparison of LiDAR elements 
+        lidar_sigma_squared = lidar_sigma.^2;
+        lidar_diagonal_elements = diag(lidar_cov);
+
+        disp('LiDAR Diagonal elements of the covariance matrix:');
+        disp(lidar_diagonal_elements);
+        disp('LiDAR Sigma^2 (variance):');
+        disp(lidar_sigma_squared);
+
+        % Comparison of GNSS elements 
+        gnss_sigma_squared = gnss_sigma.^2;
+        gnss_diagonal_elements = diag(gnss_cov);
+
+        disp('GNSS Diagonal elements of the covariance matrix:');
+        disp(gnss_diagonal_elements);
+        disp('GNSS Sigma^2 (variance):');
+        disp(gnss_sigma_squared);
+
+
         %% WEEK 2 - TASK 4 - Normal Distribution 
         max_sigma = max(lidar_sigma(1), gnss_sigma(1));
         x = linspace(-3*max_sigma, 3*max_sigma, 1000);
@@ -70,12 +89,13 @@ function [public_vars] = sensor_analysis(read_only_vars, public_vars)
         title('Normal Distribution PDFs for Sensor Noise (mu = 0)');
         xlabel('x');
         ylabel('Probability Density');
-        legend('1st LIDAR Ch', 'GNSS X Axis');
+        legend('1st LiDAR Ch', 'GNSS X Axis');
         grid on;
         
 
         % Prevent further growth of data arrays to avoid memory issues
         public_vars.lidar_history = public_vars.lidar_history(end-99:end, :);
         public_vars.gnss_history = public_vars.gnss_history(end-99:end, :);
+
     end
 end
