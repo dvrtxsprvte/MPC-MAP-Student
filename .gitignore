@@ -5,4 +5,5 @@
 # mdBook
 book/
 
-
+# CSV files
+*.csv
