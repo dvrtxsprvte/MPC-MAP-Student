@@ -14,7 +14,7 @@ if (read_only_vars.counter == 1)
 end
 
 % Sensors Uncerntainty Analysis (Sigma)
-public_vars = sensor_analysis(read_only_vars, public_vars);
+%public_vars = sensor_analysis(read_only_vars, public_vars);
 
 % 9. Update particle filter
 public_vars.particles = update_particle_filter(read_only_vars, public_vars);
