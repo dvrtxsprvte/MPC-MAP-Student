@@ -1,92 +1,47 @@
 function [public_vars] = plan_motion(read_only_vars, public_vars)
-%PLAN_MOTION Summary of this function goes here
+    %% WEEK 3 - TASK 3
+    [public_vars, target] = get_target(read_only_vars, public_vars); % get target
 
-% I. Pick navigation target
+    robot_pose = read_only_vars.mocap_pose;  % [x, y, theta]
 
-target = get_target(public_vars.estimated_pose, public_vars.path);
+    xR = robot_pose(1);
+    yR = robot_pose(2);
+    thetaR = robot_pose(3);
+
+    epsilon = 0.1;  % virtual point of the robot
+    xP = xR + epsilon*cos(thetaR);
+    yP = yR + epsilon*sin(thetaR);
+
+    % Dist to target
+    dx = target(1) - xP;
+    dy = target(2) - yP;
+
+    % P reg
+    Kp = 2;
+    dot_xP = Kp * dx;
+    dot_yP = Kp * dy;
+
+    maxLinSpeed = 2; % limit of lin speed
+    speedP = sqrt(dot_xP^2 + dot_yP^2);
+    if speedP > maxLinSpeed
+        scale = maxLinSpeed / speedP;
+        dot_xP = dot_xP * scale;
+        dot_yP = dot_yP * scale;
+    end
+
+    % feedback lineariation
+    v =  dot_xP*cos(thetaR) + dot_yP*sin(thetaR);
+    w = (1/epsilon)*(-dot_xP*sin(thetaR) + dot_yP*cos(thetaR));
+
+    maxAngSpeed = 3.0; % limit of ang speed
+    if abs(w) > maxAngSpeed
+        w = sign(w)*maxAngSpeed;
+    end
+
+    d = read_only_vars.agent_drive.interwheel_dist;
+    vR = v + w*(d/2);
+    vL = v - w*(d/2);
 
 
-% II. Compute motion vector
-%
-public_vars.motion_vector = [0, 0];
-
-
-%% WEEK 2 - TASK 5
-%         if ~isfield(public_vars, 'i') 
-%             public_vars.i = 0;
-%         end
-% 
-%         if ~isfield(public_vars, 'state')  
-%             public_vars.state = 1; 
-%         end
-% 
-% switch public_vars.state
-%     case 1  
-%         public_vars.motion_vector = [0.5, 0.5];
-%         public_vars.i = public_vars.i + 1;
-%         if public_vars.i >= 135
-%             public_vars.motion_vector = [0, 0];  
-%             public_vars.state = 2;  
-%             public_vars.i = 0;  
-%         end
-% 
-%     case 2 
-%         public_vars.motion_vector = [-0.1, 0.1];
-%         public_vars.i = public_vars.i + 1;
-%         if public_vars.i >= 18  
-%             public_vars.motion_vector = [0, 0];  
-%             public_vars.state = 3;
-%             public_vars.i = 0;  
-%         end
-%     case 3
-%         public_vars.motion_vector = [0.5, 0.5];
-%         public_vars.i = public_vars.i + 1;
-%         if public_vars.i >= 65
-%             public_vars.motion_vector = [0, 0];  
-%             public_vars.state = 4;  
-%             public_vars.i = 0;  
-%         end
-%     case 4
-%         public_vars.motion_vector = [-0.1, 0.1];
-%         public_vars.i = public_vars.i + 1;
-%         if public_vars.i >= 16  
-%             public_vars.motion_vector = [0, 0];  
-%             public_vars.state = 5; 
-%             public_vars.i = 0;  
-%         end 
-%     case 5
-%         public_vars.motion_vector = [0.5, 0.5];
-%         public_vars.i = public_vars.i + 1;
-%         if public_vars.i >= 120
-%             public_vars.motion_vector = [0, 0];  
-%             public_vars.state = 6;  
-%             public_vars.i = 0;  
-%         end
-%     case 6
-%         public_vars.motion_vector = [0.1, -0.1];
-%         public_vars.i = public_vars.i + 1;
-%         if public_vars.i >= 16  
-%             public_vars.motion_vector = [0, 0];  
-%             public_vars.state = 7; 
-%             public_vars.i = 0;  
-%         end 
-%     case 7
-%         public_vars.motion_vector = [0.5, 0.5];
-%         public_vars.i = public_vars.i + 1;
-%         if public_vars.i >= 70
-%             public_vars.motion_vector = [0, 0];  
-%             public_vars.state = 8;  
-%             public_vars.i = 0;  
-%         end
-%     case 8
-%         public_vars.motion_vector = [0.1, -0.1];
-%         public_vars.i = public_vars.i + 1;
-%         if public_vars.i >= 15  
-%             public_vars.motion_vector = [0, 0];  
-%             public_vars.state = 9; 
-%             public_vars.i = 0;  
-%         end
-%     case 9
-%         public_vars.motion_vector = [0.7, 0.7];
-% end
+    public_vars.motion_vector = [vR, vL];
 end
