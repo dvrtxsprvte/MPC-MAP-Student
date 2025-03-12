@@ -8,7 +8,7 @@ function [public_vars] = plan_motion(read_only_vars, public_vars)
     yR = robot_pose(2);
     thetaR = robot_pose(3);
 
-    epsilon = 0.1;  % virtual point of the robot
+    epsilon = 0.05;  % virtual point of the robot
     xP = xR + epsilon*cos(thetaR);
     yP = yR + epsilon*sin(thetaR);
 
@@ -17,11 +17,11 @@ function [public_vars] = plan_motion(read_only_vars, public_vars)
     dy = target(2) - yP;
 
     % P reg
-    Kp = 2;
+    Kp = 0.5;
     dot_xP = Kp * dx;
     dot_yP = Kp * dy;
 
-    maxLinSpeed = 2; % limit of lin speed
+    maxLinSpeed = 1; % limit of lin speed
     speedP = sqrt(dot_xP^2 + dot_yP^2);
     if speedP > maxLinSpeed
         scale = maxLinSpeed / speedP;
@@ -33,7 +33,7 @@ function [public_vars] = plan_motion(read_only_vars, public_vars)
     v =  dot_xP*cos(thetaR) + dot_yP*sin(thetaR);
     w = (1/epsilon)*(-dot_xP*sin(thetaR) + dot_yP*cos(thetaR));
 
-    maxAngSpeed = 3.0; % limit of ang speed
+    maxAngSpeed = 2.0; % limit of ang speed
     if abs(w) > maxAngSpeed
         w = sign(w)*maxAngSpeed;
     end
