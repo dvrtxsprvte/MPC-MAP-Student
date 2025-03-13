@@ -31,7 +31,7 @@ public_vars.path = plan_path(read_only_vars, public_vars);
 % 13. Plan next motion command
 public_vars = plan_motion(read_only_vars, public_vars);
 
-
+compare_lidar_with_mocap(read_only_vars.map, read_only_vars);
 
 end
 
