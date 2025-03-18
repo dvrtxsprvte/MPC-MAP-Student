@@ -2,13 +2,14 @@ function [public_vars] = plan_motion(read_only_vars, public_vars)
     %% WEEK 3 - TASK 3
     [public_vars, target] = get_target(read_only_vars, public_vars); % get target
 
-    robot_pose = read_only_vars.mocap_pose;  % [x, y, theta]
+    % robot_pose = read_only_vars.mocap_pose;  % [x, y, theta]
+    robot_pose = public_vars.mu;
 
     xR = robot_pose(1);
     yR = robot_pose(2);
     thetaR = robot_pose(3);
 
-    epsilon = 0.05;  % virtual point of the robot
+    epsilon = 0.1;  % virtual point of the robot
     xP = xR + epsilon*cos(thetaR);
     yP = yR + epsilon*sin(thetaR);
 
@@ -17,7 +18,7 @@ function [public_vars] = plan_motion(read_only_vars, public_vars)
     dy = target(2) - yP;
 
     % P reg
-    Kp = 0.5;
+    Kp = 0.75;
     dot_xP = Kp * dx;
     dot_yP = Kp * dy;
 
