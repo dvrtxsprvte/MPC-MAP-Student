@@ -3,7 +3,8 @@ function [public_vars] = plan_motion(read_only_vars, public_vars)
     [public_vars, target] = get_target(read_only_vars, public_vars); % get target
 
     % robot_pose = read_only_vars.mocap_pose;  % [x, y, theta]
-    robot_pose = public_vars.mu;
+     %robot_pose = public_vars.mu;
+    robot_pose = public_vars.estimated_pose;
 
     xR = robot_pose(1);
     yR = robot_pose(2);

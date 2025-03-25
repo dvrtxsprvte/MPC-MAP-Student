@@ -2,8 +2,9 @@ function [public_vars, target] = get_target(read_only_vars, public_vars)
     %% WEEK 3 - TASK 3
     % robot_pose = read_only_vars.mocap_pose;  % [x, y, theta]
     
-    robot_pose = public_vars.mu;  % [x, y, theta]
-
+    % robot_pose = public_vars.mu;  % [x, y, theta]
+    robot_pose = public_vars.estimated_pose;
+    
     Rx = robot_pose(1);
     Ry = robot_pose(2);
     
