@@ -1,10 +1,9 @@
 function [new_pose] = predict_pose(old_pose, motion_vector, read_only_vars)
-%PREDICT_POSE Summary of this function goes here
 
-new_pose = old_pose;
+    x = old_pose(1);
+    y = old_pose(2);
+    theta = old_pose(3);
 
-<<<<<<< Updated upstream
-=======
     vR = motion_vector(1);
     vL = motion_vector(2);
     d = read_only_vars.agent_drive.interwheel_dist;
@@ -25,6 +24,4 @@ new_pose = old_pose;
     theta_new = mod(theta_new + pi, 2*pi) - pi;
 
     new_pose = [x_new, y_new, theta_new];
->>>>>>> Stashed changes
 end
-

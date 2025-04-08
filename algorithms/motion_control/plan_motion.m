@@ -1,11 +1,4 @@
 function [public_vars] = plan_motion(read_only_vars, public_vars)
-<<<<<<< Updated upstream
-%PLAN_MOTION Summary of this function goes here
-
-% I. Pick navigation target
-
-target = get_target(public_vars.estimated_pose, public_vars.path);
-=======
 
 [public_vars, target] = get_target(read_only_vars, public_vars);
 
@@ -41,20 +34,11 @@ end
 
 v = dot_xP * cos(thetaR) + dot_yP * sin(thetaR);
 w = (1 / epsilon) * (-dot_xP * sin(thetaR) + dot_yP * cos(thetaR));
->>>>>>> Stashed changes
 
 if abs(w) > maxAngSpeed
     w = sign(w) * maxAngSpeed;
 end
 
-<<<<<<< Updated upstream
-% II. Compute motion vector
-
-public_vars.motion_vector = [0.5, 0.5];
-
-
-end
-=======
 vR = v + w * (d / 2);
 vL = v - w * (d / 2);
 
@@ -69,13 +53,9 @@ elseif lidar(6) < wall_distance || lidar(7) < wall_distance
     public_vars.motion_vector = [vR * 0.5, vL];
 elseif lidar(5) < wall_distance
     % back
-    public_vars.motion_vector = [0, 0];
-% elseif isfield(public_vars, 'lost') && public_vars.lost == 1
-%     % lost path
-%     public_vars.motion_vector = [0.2, 0.2];
+    public_vars.motion_vector = [0.2, 0.2];
 else
     public_vars.motion_vector = [vR, vL];
 end
 
 end
->>>>>>> Stashed changes

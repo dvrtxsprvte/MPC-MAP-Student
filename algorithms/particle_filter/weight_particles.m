@@ -1,11 +1,4 @@
 function [weights] = weight_particles(particle_measurements, lidar_distances)
-<<<<<<< Updated upstream
-%WEIGHT_PARTICLES Summary of this function goes here
-
-N = size(particle_measurements, 1);
-weights = ones(N,1) / N;
-
-=======
     valid_mask = ~isinf(lidar_distances);
 
     same_mask = all(isnan(particle_measurements) == ~valid_mask, 2);
@@ -24,6 +17,4 @@ weights = ones(N,1) / N;
     weights(same_mask) = 1 ./ (dists + 1e-6);
 
     weights = weights / sum(weights);
->>>>>>> Stashed changes
 end
-

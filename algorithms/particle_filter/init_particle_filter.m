@@ -1,10 +1,7 @@
 function [public_vars] = init_particle_filter(read_only_vars, public_vars)
-%INIT_PARTICLE_FILTER Summary of this function goes here
 
-public_vars.particles = [];
+    num_particles = 1000;
 
-<<<<<<< Updated upstream
-=======
     coords = reshape(read_only_vars.map.gnss_denied, 2, [])';  
     xPoly = coords(:,1);
     yPoly = coords(:,2);
@@ -25,6 +22,4 @@ public_vars.particles = [];
 
     public_vars.particles = particles;
     
->>>>>>> Stashed changes
 end
-

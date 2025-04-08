@@ -18,9 +18,6 @@ if gnss_available
     public_vars = init_kalman_filter(read_only_vars, public_vars);
     public_vars.localization_mode = 'EKF';
 else
-    if read_only_vars.counter < 15
-        public_vars.motion_vector = [-1, 1];
-    end 
     public_vars.kf_enabled = 0;
     public_vars.pf_enabled = 1;
     public_vars = init_particle_filter(read_only_vars, public_vars);

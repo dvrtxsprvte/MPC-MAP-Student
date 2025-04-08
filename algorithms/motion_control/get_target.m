@@ -1,14 +1,9 @@
-<<<<<<< Updated upstream
-function [target] = get_target(estimated_pose, path)
-%GET_TARGET Summary of this function goes here
-
-target = [0, 0];
-=======
 function [public_vars, target] = get_target(read_only_vars, public_vars)
 
 robot_pose = public_vars.estimated_pose;
 Rx = robot_pose(1);
 Ry = robot_pose(2);
+
 
 if ~isfield(public_vars, 'wp_index') || public_vars.wp_index < 1
     public_vars.wp_index = 1;
@@ -31,7 +26,5 @@ if distToCurrent < threshold
 end
 
 target = public_vars.path(public_vars.wp_index, :);
->>>>>>> Stashed changes
 
 end
-

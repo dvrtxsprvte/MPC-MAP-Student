@@ -1,9 +1,3 @@
-<<<<<<< Updated upstream
-function [new_path] = smooth_path(old_path)
-%SMOOTH_PATH Summary of this function goes here
-
-new_path = old_path;
-=======
 function [new_path] = smooth_path(old_path, read_only_vars)
 
     alpha     = 0.1;    
@@ -42,7 +36,5 @@ function [new_path] = smooth_path(old_path, read_only_vars)
             break;
         end
     end
->>>>>>> Stashed changes
 
 end
-

@@ -1,12 +1,4 @@
 function [path] = astar(read_only_vars, public_vars)
-<<<<<<< Updated upstream
-%ASTAR Summary of this function goes here
-
-path = [];
-
-end
-
-=======
     raw_map = read_only_vars.discrete_map.map;
     [nRows, nCols] = size(raw_map);
 
@@ -18,7 +10,6 @@ end
     start = max(start, [2, 2]);
 
     directions = [0 1; 1 0; 0 -1; -1 0];
- 
 
     open_set = [];
     visited = false(nRows, nCols);
@@ -53,9 +44,9 @@ end
             end
 
             if sum(abs(directions(i, :))) == 2
-                step = 1.44;  % diagonální pohyb
+                step = sqrt(2);
             else
-                step = 1.0;   % přímý pohyb
+                step = 1.0;   
             end
 
             g_candidate = g_score(current(1), current(2)) + step;
@@ -127,4 +118,3 @@ function conv_result = applyConvolution(binary_map, radius)
         conv_result = conv_result / max(conv_result(:));
     end
 end
->>>>>>> Stashed changes
