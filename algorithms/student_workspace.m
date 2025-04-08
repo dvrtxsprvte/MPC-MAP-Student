@@ -59,7 +59,7 @@ end
 if ~isempty(public_vars.path) && isfield(public_vars, 'wp_index') && public_vars.wp_index <= size(public_vars.path, 1)
     current_wp = public_vars.path(public_vars.wp_index, :);
     robot_pos = public_vars.estimated_pose(1:2);
-    if norm(robot_pos - current_wp) > 2
+    if norm(robot_pos - current_wp) > 1.75
         public_vars.path = plan_path(read_only_vars, public_vars);
         public_vars.wp_index = 1;
     end

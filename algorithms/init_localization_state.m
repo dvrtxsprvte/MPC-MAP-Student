@@ -14,7 +14,7 @@ if gnss_available
     public_vars.pf_enabled = 0;
     theta_rnd = rand() * 2 * pi - pi;
     public_vars.estimated_pose = [median(read_only_vars.gnss_history(:,1)), median(read_only_vars.gnss_history(:,2)), theta_rnd];
-    public_vars.kf.R = diag([0.001, 0.001, 1]);
+    public_vars.kf.R = diag([0.001, 0.001, 0.1]);
     public_vars = init_kalman_filter(read_only_vars, public_vars);
     public_vars.localization_mode = 'EKF';
 else

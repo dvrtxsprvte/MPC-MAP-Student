@@ -10,6 +10,16 @@ function [path] = astar(read_only_vars, public_vars)
     start = max(start, [2, 2]);
 
     directions = [0 1; 1 0; 0 -1; -1 0];
+    % directions  = [
+    %     -1,  0;
+    %      1,  0;
+    %      0, -1;
+    %      0,  1;
+    %     -1, -1;
+    %     -1,  1;
+    %      1, -1;
+    %      1,  1
+    % ];
 
     open_set = [];
     visited = false(nRows, nCols);
